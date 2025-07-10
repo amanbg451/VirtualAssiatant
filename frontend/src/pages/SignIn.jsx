@@ -8,10 +8,10 @@ import { UserDataContext } from "../context/userContext";
 
 const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const { serverUrl } = useContext(UserDataContext);
+  const { serverUrl, userData, setUserData } = useContext(UserDataContext);
   const [error, setError] = useState("");
   const navigate = useNavigate();
-  const [email, setEmail] = useState(""); 
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [password, setPassword] = useState("");
 
@@ -23,10 +23,13 @@ const SignIn = () => {
       let result = await axios.post(`${serverUrl}/api/auth/signin`, {
         email, password
       }, { withCredentials: true });
+      setUserData(result.data);
       console.log(result)
       setLoading(false);
+      navigate("/")
     } catch (error) {
       console.log(error)
+      setUserData(null);
       setLoading(false);
       setError(error.response.data.message);
     }

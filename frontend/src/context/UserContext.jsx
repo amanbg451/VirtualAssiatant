@@ -3,12 +3,12 @@ import axios from 'axios';
 export const UserDataContext = createContext();
 function UserContext({ children }) {
     const serverUrl = "http://localhost:8000";
-    const [userData, setUerData] = useState(null);
+    const [userData, setUserData] = useState(null);
 
     const handleCurrentUer = async () => {
         try {
             const result = await axios.get(`${serverUrl}/api/user/current`, { withCredentials: true });
-            setUerData(result.data);
+            setUserData(result.data);
             console.log(result.data);
         } catch (error) {
             console.log(error)
@@ -20,7 +20,9 @@ function UserContext({ children }) {
     },[])
 
     const value = {
-        serverUrl
+        serverUrl,
+        userData,
+        setUserData
     }
     return (
         <div>
